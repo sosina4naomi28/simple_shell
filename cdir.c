@@ -7,13 +7,14 @@
  */
 int help(info_t *info)
 {
-        char **ptr;
+	char **ptr;
 
-        ptr = info->argv;
-        _puts("help call works. Function not yet implemented \n");
-        if (0)
-                _puts(*ptr); 
-        return (0);
+	ptr = info->argv;
+
+	_puts("help call works. Function not yet implemented \n");
+	if (0)
+		_puts(*ptr);
+	return (0);
 }
 /**
  * exit - exits the shell
@@ -24,7 +25,7 @@ int exit(info_t *info)
 {
 	int ex;
 
-	if (info->argv[1]) 
+	if (info->argv[1])
 	{
 		ex = _erratoi(info->argv[1]);
 		if (ex == -1)

@@ -2,21 +2,20 @@
 /**
  * unsetenv -the function that Remove an environment variable
  * @info: arguments
- * Return: Always 0    
+ * Return: Always 0
  */
 int unsetenv(info_t *info)
 {
-        int k;
+	int k;
 
-        if (info->argc == 1)
-        {
-                _eputs("Too few arguements.\n");
-                return (1);
-        }
-        for (k = 1; k <= info->argc; k++)   
-                _unsetenv(info, info->argv[k]);
-
-        return (0);
+	if (info->argc == 1)
+	{
+		_eputs("Too few arguements.\n");
+		return (1);
+	}
+	for (k = 1; k <= info->argc; k++)
+		_unsetenv(info, info->argv[k]);
+	return (0);
 }
 /**
  * env - the function that prints the current environment
