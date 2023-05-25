@@ -1,17 +1,16 @@
 #include "shell.h"
 
 /**
- * active - returns true if shell is interactive mode
- * @info: struct address
+ * active - the function that returns true if shell is interactive mode
+ * @ino: struct address
  * Return: 1 success , 0 otherwise
  */
-int active(info_t *info)
+int active(ino_t *ino)
 {
-	return (isatty(STDIN_FILENO) && info->readfd <= 2);
+	return (isatty(STDIN_FILENO) && ino->readfd <= 2);
 }
-
 /**
- * delimeter - checks if character is a delimeter
+ * delimeter - the function that  checks if character is a delimeter
  * @a: the char to check
  * @del: delimeter string
  * Return: 1 success, else 0

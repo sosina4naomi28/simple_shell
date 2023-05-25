@@ -5,16 +5,16 @@
  * @info: argument
  *  Return: 0 success
  */
-int alias(info_t *info)
+int alias(ino_t *ino)
 {
 	int k = 0;
 	char *ptr = NULL;
 
 	list_t *node = NULL;
 
-	if (info->argc == 1)
+	if (ino->argc == 1)
 	{
-		node = info->alias;
+		node = ino->alias;
 		while (node)
 		{
 			print_alias(node);
@@ -24,11 +24,11 @@ int alias(info_t *info)
 	}
 	for (k = 1; info->argv[k]; k++)
 	{
-		ptr = _strchr(info->argv[k], '=');
+		ptr = _strchr(ino->argv[k], '=');
 		if (ptr)
-			set_alias(info, info->argv[k]);
+			set_alias(ino, ino->argv[k]);
 		else
-			print_alias(node_starts_with(info->alias, info->argv[k], '='));
+			print_alias(node_starts_with(ino->alias, ino->argv[k], '='));
 	}
 	return (0);
 }
@@ -37,9 +37,9 @@ int alias(info_t *info)
  * @info: arguments
  *  Return: 0
  */
-int zhistory(info_t *info)
+int zhistory(ino_t *ino)
 {
-	print_list(info->history);
+	print_list(ino->history);
 	return (0);
 }
 /**
@@ -48,7 +48,7 @@ int zhistory(info_t *info)
  * @str: the string
  * Return: 0  success, 1 error
  */
-int salias(info_t *info, char *str)
+int salias(ino_t *ino, char *str)
 {
 	char *ptr
 
@@ -57,10 +57,10 @@ int salias(info_t *info, char *str)
 		return (1);
 	if (!*++ptr)
 	{
-		return (unalias(info, str));
+		return (unalias(ino, str));
 	}
-	unalias(info, str);
-	return (add_node_end(&(info->alias), str, 0) == NULL);
+	unalias(ino, str);
+	return (add_node_end(&(ino->alias), str, 0) == NULL);
 }
 /**
  * palias - the function that prints an alias string
@@ -89,7 +89,7 @@ int palias(list_t *node)
  * @str:  string
  * Return: 0  success, 1 (error)
  */
-int unalias(info_t *info, char *str)
+int unalias(ino_t *ino, char *str)
 {
 	char *ptr, a;
 	int ret;
@@ -99,8 +99,8 @@ int unalias(info_t *info, char *str)
 		return (1);
 	a = *ptr;
 	*ptr = 0;
-	ret = delete_node_at_index(&(info->alias),
-			get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
+	ret = delete_node_at_index(&(ino->alias),
+			get_node_index(ino->alias, node_starts_with(ino->alias, str, -1)));
 	*ptr = a;
 	return (ret);
 }

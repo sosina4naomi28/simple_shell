@@ -36,44 +36,44 @@
 
 extern char **environ;
 
-/* toem_environ.c */
-char *_getenv(info_t *, const char *);
-int _myenv(info_t *);
-int _mysetenv(info_t *);
-int _myunsetenv(info_t *);
-int populate_env_list(info_t *);
+/* env.c */
+char *genv(ino_t *, const char *);
+int env(ino_t *);
+int setenv(ino_t *);
+int unsetenv(ino_t *);
+int env_list(ino_t *);
 
-/* toem_getenv.c */
-char **get_environ(info_t *);
-int _unsetenv(info_t *, char *);
-int _setenv(info_t *, char *, char *);
+/* environ.c */
+char **get_environ(ino_t *);
+int _unsetenv(ino_t *, char *);
+int _setenv(ino_t *, char *, char *);
 
-/* toem_history.c */
-char *get_history_file(info_t *info);
-int write_history(info_t *info);
-int read_history(info_t *info);
-int build_history_list(info_t *info, char *buf, int linecount);
-int renumber_history(info_t *info);
+/* history.c */
+char *get_history_file(ino_t *ino);
+int write_history(ino_t *ino);
+int read_history(ino_t *ino);
+int build_history_list(ino_t *ino, char *buf, int linecount);
+int renumber_history(ino_t *ino);
 
-/* toem_lists.c */
+/* lists.c */
 list_t *add_node(list_t **, const char *, int);
 list_t *add_node_end(list_t **, const char *, int);
 size_t print_list_str(const list_t *);
 int delete_node_at_index(list_t **, unsigned int);
 void free_list(list_t **);
 
-/* toem_lists1.c */
+/* lists1.c */
 size_t list_len(const list_t *);
 char **list_to_strings(list_t *);
 size_t print_list(const list_t *);
 list_t *node_starts_with(list_t *, char *, char);
 ssize_t get_node_index(list_t *, list_t *);
 
-/* toem_vars.c */
-int is_chain(info_t *, char *, size_t *);
-void check_chain(info_t *, char *, size_t *, size_t, size_t);
-int replace_alias(info_t *);
-int replace_vars(info_t *);
+/* vars.c */
+int is_chain(ino_t *, char *, size_t *);
+void check_chain(ino_t *, char *, size_t *, size_t, size_t);
+int replace_alias(ino_t *);
+int replace_vars(ino_t *);
 int replace_string(char **, char *);
 
 /**
@@ -90,7 +90,7 @@ typedef struct liststr
 } list_t;
 
 /**
- * struct passinfo - contains pseudo-arguements to pass into a function,
+ * struct passinfo -function that contains pseudo-arguements to pass into a function,
  * allowing uniform prototype for function pointer struct
  * @arg: a string generated from getline containing arguements
  * @argv:an array of strings generated from arg
@@ -121,18 +121,18 @@ typedef struct passinfo
 	int err_num;
 	int linecount_flag;
 	char *fname;
-	list_t *env;
+	list_t *env
 	list_t *history;
 	list_t *alias;
 	char **environ;
 	int env_changed;
 	int status;
 
-	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
-	int cmd_buf_type; /* CMD_type ||, &&, ; */
+	char **cmd_buf; 
+	int cmd_buf_type;
 	int readfd;
 	int histcount;
-} info_t;
+} ino_t;
 
 #define INFO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
@@ -146,20 +146,20 @@ typedef struct passinfo
 typedef struct builtin
 {
 	char *type;
-	int (*func)(info_t *);
+	int (*func)(ino_t *);
 } builtin_table;
 
 
 /* toem_shloop.c */
-int hsh(info_t *, char **);
-int find_builtin(info_t *);
-void find_cmd(info_t *);
-void fork_cmd(info_t *);
+int hsh(ino_t *, char **);
+int find_builtin(ino_t *);
+void find_cmd(ino_t *);
+void fork_cmd(ino_t *);
 
 /* toem_parser.c */
-int is_cmd(info_t *, char *);
+int is_cmd(ino_t *, char *);
 char *dup_chars(char *, int, int);
-char *find_path(info_t *, char *, char *);
+char *find_path(ino_t *, char *, char *);
 
 /* loophsh.c */
 int loophsh(char **);
@@ -191,43 +191,43 @@ char *_strchr(char *, char);
 char **strtow(char *, char *);
 char **strtow2(char *, char);
 
-/* toem_realloc.c */
+/* realloc.c */
 char *_memset(char *, char, unsigned int);
 void ffree(char **);
 void *_realloc(void *, unsigned int, unsigned int);
 
-/* toem_memory.c */
+/* memory.c */
 int bfree(void **);
 
-/* toem_atoi.c */
-int active(info_t *);
+/* integer.c */
+int active(ino_t *);
 int delimeter(char, char *);
 int alpha(int);
 int atoi(char *);
 
-/* toem_errors1.c */
+/* errors1.c */
 int _erratoi(char *);
-void print_error(info_t *, char *);
+void print_error(ino_t *, char *);
 int print_d(int, int);
 char *convert_number(long int, int, int);
 void remove_comments(char *);
 
-/* toem_builtin.c */
-int _myexit(info_t *);
-int _mycd(info_t *);
-int _myhelp(info_t *);
+/* builtin.c */
+int exit(ino_t *);
+int cd(ino_t *);
+int help(ino_t *);
 
-/* toem_builtin1.c */
-int _myhistory(info_t *);
-int _myalias(info_t *);
+/* alias.c */
+int zhistory(ino_t *);
+int alias(ino_t *);
 
-/*toem_getline.c */
-ssize_t get_input(info_t *);
-int _getline(info_t *, char **, size_t *);
+/* getline.c */
+ssize_t get_input(ino_t *);
+int _getline(ino_t *, char **, size_t *);
 void sigintHandler(int);
 
-/* toem_getinfo.c */
-void clear_info(info_t *);
-void set_info(info_t *, char **);
-void free_info(info_t *, int);
+/* getinfo.c */
+void clear_ino(ino_t *);
+void set_ino(ino_t *, char **);
+void free_ino(ino_t *, int);
 #endif

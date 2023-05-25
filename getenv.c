@@ -2,32 +2,30 @@
 
 /**
  * get_environ - returns the string array copy of our environ
- * @info: Structure containing potential arguments. Used to maintain
+ * @ino: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
- * Return: Always 0
+ * Return: 0 success
  */
-char **get_environ(info_t *info)
+char **get_environ(ino_t *ino)
 {
-	if (!info->environ || info->env_changed)
+	if (!ino->environ || ino->env_changed)
 	{
-		info->environ = list_to_strings(info->env);
-		info->env_changed = 0;
+		ino->environ = list_to_strings(ino->env);
+		ino->env_changed = 0;
 	}
 
-	return (info->environ);
+	return (ino->environ);
 }
-
 /**
- * _unsetenv - Remove an environment variable
- * @info: Structure containing potential arguments. Used to maintain
- *        constant function prototype.
- *  Return: 1 on delete, 0 otherwise
- * @var: the string env var property
+ * unsetenviron -the function that remove an environment variable
+ * @ino: arguments
+ * Return: 1 or 0
+ * @var: string
  */
-int _unsetenv(info_t *info, char *var)
+int unsetenviron(ino_t *ino, char *var)
 {
-	list_t *node = info->env;
-	size_t i = 0;
+	list_t *node = ino->env;
+	size_t k = 0;
 	char *q;
 
 	if (!node || !var)
@@ -38,27 +36,24 @@ int _unsetenv(info_t *info, char *var)
 		q = starts_with(node->str, var);
 		if (q && *q == '=')
 		{
-			info->env_changed = delete_node_at_index(&(info->env), i);
-			i = 0;
-			node = info->env;
+			ino->env_changed = delete_node_at_index(&(ino->env), k);
+			k = 0;
+			node = ino->env;
 			continue;
 		}
 		node = node->next;
-		i++;
+		k++;
 	}
-	return (info->env_changed);
+	return (ino->env_changed);
 }
-
 /**
- * _setenv - Initialize a new environment variable,
- *             or modify an existing one
- * @info: Structure containing potential arguments. Used to maintain
- *        constant function prototype.
- * @var: the string env var property
- * @value: the string env var value
- *  Return: Always 0
+ * setenviron - the function that initialize a new environment variable
+ * @ino: arguments
+ * @var: the string
+ * @value: string
+ * Return:  0
  */
-int _setenv(info_t *info, char *var, char *value)
+int setenviron(ino_t *ino, char *var, char *value)
 {
 	char *buf = NULL;
 	list_t *node;
@@ -73,7 +68,7 @@ int _setenv(info_t *info, char *var, char *value)
 	_strcpy(buf, var);
 	_strcat(buf, "=");
 	_strcat(buf, value);
-	node = info->env;
+	node = ino->env;
 	while (node)
 	{
 		q = starts_with(node->str, var);
@@ -86,9 +81,8 @@ int _setenv(info_t *info, char *var, char *value)
 		}
 		node = node->next;
 	}
-	add_node_end(&(info->env), buf, 0);
+	add_node_end(&(ino->env), buf, 0);
 	free(buf);
-	info->env_changed = 1;
+	ino->env_changed = 1;
 	return (0);
 }
-

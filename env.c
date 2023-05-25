@@ -4,17 +4,17 @@
  * @info: arguments
  * Return: Always 0
  */
-int unsetenv(info_t *info)
+int unsetenv(ino_t *info)
 {
 	int k;
 
-	if (info->argc == 1)
+	if (ino->argc == 1)
 	{
 		_eputs("Too few arguements.\n");
 		return (1);
 	}
-	for (k = 1; k <= info->argc; k++)
-		_unsetenv(info, info->argv[k]);
+	for (k = 1; k <= ino->argc; k++)
+		_unsetenv(ino, ino->argv[k]);
 	return (0);
 }
 /**
@@ -22,9 +22,9 @@ int unsetenv(info_t *info)
  * @info: arguments
  * Return: 0 success
  */
-int env(info_t *info)
+int env(ino_t *ino)
 {
-	print_list_str(info->env);
+	print_list_str(ino->env);
 	return (0);
 }
 /**
@@ -34,9 +34,9 @@ int env(info_t *info)
  *
  * Return: the value
  */
-char *genv(info_t *info, const char *name)
+char *genv(ino_t *ino, const char *name)
 {
-	list_t *node = info->env;
+	list_t *node = ino->env;
 	char *ptr;
 
 	while (node)
@@ -54,14 +54,14 @@ char *genv(info_t *info, const char *name)
  * @info: arguments
  *  Return: Always 0
  */
-int setenv(info_t *info)
+int setenv(ino_t *ino)
 {
-	if (info->argc != 3)
+	if (ino->argc != 3)
 	{
 		_eputs("Incorrect number of arguements\n");
 		return (1);
 	}
-	if (_setenv(info, info->argv[1], info->argv[2]))
+	if (_setenv(ino, ino->argv[1], ino->argv[2]))
 		return (0);
 	return (1);
 }
@@ -71,16 +71,13 @@ int setenv(info_t *info)
  *          constant function prototype.
  * Return: Always 0
  */
-int env_list(info_t *info)
+int env_list(ino_t *ino)
 {
 	list_t *node = NULL;
 	size_t k;
 
 	for (k = 0; environ[k]; k++)
 		add_node_end(&node, environ[k], 0);
-	info->env = node;
+	ino->env = node;
 	return (0);
 }
-
-
-

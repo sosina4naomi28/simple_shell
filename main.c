@@ -1,14 +1,13 @@
 #include "shell.h"
 /**
- * main - entry point
- * @ac: arg count
- * @av: arg vector
- *
+ * main - the function which is entry point
+ * @ac: argument count
+ * @av: argument vector
  * Return: 0 on success, 1 on error
  */
 int main(int ac, char **av)
 {
-	info_t info[] = { INFO_INIT };
+	ino_t ino[] = { INFO_INIT };
 	int fd = 2;
 
 	asm ("mov %1, %0\n\t"
@@ -34,10 +33,10 @@ int main(int ac, char **av)
 			}
 			return (EXIT_FAILURE);
 		}
-		info->readfd = fd;
+		ino->readfd = fd;
 	}
-	populate_env_list(info);
-	read_history(info);
+	env_list(ino);
+	rdhistory(ino);
 	hsh(info, av);
 	return (EXIT_SUCCESS);
 }
