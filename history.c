@@ -68,7 +68,7 @@ int buhistory_list(ino_t *ino, char *buf, int linecount)
 	return (0);
 }
 /**
- * renumber_history - renumbers the history linked list after changes
+ * renhistory - renumbers the history linked list after changes
  * @ino: Structure containing potential arguments. Used to maintain
  * Return: the new histcount
  */
@@ -91,43 +91,42 @@ int renhistory(ino_t *ino)
  */
 int rdhistory(ino_t *ino)
 {
-        int k, last = 0, linecount = 0;
-        ssize_t fd, rdlen, fsize = 0;
-        struct stat st;
-        char *buf = NULL, *filename = ghistoryf(ino);
+	int k, last = 0, linecount = 0;
+	ssize_t fd, rdlen, fsize = 0;
+	struct stat st;
+	char *buf = NULL, *filename = ghistoryf(ino);
 
-        if (!filename)
-                return (0);
-
-        fd = open(filename, O_RDONLY);
-        freed(filename);
-        if (fd == -1)
-                return (0);
-        if (!fstat(fd, &st))
-                fsize = st.st_size;
-        if (fsize < 2)
-                return (0);
-        buf = malloc(sizeof(char) * (fsize + 1));
-        if (!buf)
-                return (0);
-        rdlen = read(fd, buf, fsize);
-        buf[fsize] = 0;
-        if (rdlen <= 0)
-                return (free(buf), 0);
-        close(fd);
-        for (k = 0; k < fsize; k++)
-                if (buf[k] == '\n')
-                {
-                        buf[k] = 0;
-                        buhistory_list(ino, buf + last, linecount++);
-                        last = k + 1;
-                }
-        if (last != k)
-                bulist(info, buf + last, linecount++);
-        freed(buf);
-        info->histcount = linecount;
-        while (ino->histcount-- >= HIST_MAX)
-                delete_node_at_index(&(ino->history), 0);
-        renhistory(ino);
-        return (ino->histcount);
+	if (!filename)
+		return (0);
+	fd = open(filename, O_RDONLY);
+	free(filename);
+	if (fd == -1)
+		return (0);
+	if (!fstat(fd, &st))
+		fsize = st.st_size;
+	if (fsize < 2)
+		return (0);
+	buf = malloc(sizeof(char) * (fsize + 1));
+	if (!buf)
+		return (0);
+	rdlen = read(fd, buf, fsize);
+	buf[fsize] = 0;
+	if (rdlen <= 0)
+		return (free(buf), 0);
+	close(fd);
+	for (k = 0; k < fsize; k++)
+		if (buf[k] == '\n')
+		{
+			buf[k] = 0;
+			buhistory_list(ino, buf + last, linecount++);
+			last = k + 1;
+		}
+	if (last != k)
+		bulist(info, buf + last, linecount++);
+	free(buf);
+	info->histcount = linecount;
+	while (ino->histcount-- >= HIST_MAX)
+		deletenode_index(&(ino->history), 0);
+	renhistory(ino);
+	return (ino->histcount);
 }

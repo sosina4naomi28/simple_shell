@@ -34,7 +34,7 @@ list_t *addnode(list_t **head, const char *str, int num)
 /**
  * addnode_end - function that adds a node to the end of the list
  * @head: address of pointer to head node
- * @str: str 
+ * @str: str
  * @num: node index
  * Return: size of list
  */
@@ -71,7 +71,7 @@ list_t *addnode_end(list_t **head, const char *str, int num)
 	return (new_node);
 }
 /**
- * plist_str - function that prints only the str element of a list_t linked list
+ * plist_str - function that prints the str element of a list
  * @d: pointer
  * Return: size of list
  */
@@ -89,8 +89,8 @@ size_t plist_str(const list_t *d)
 	return (k);
 }
 /**
- * deletenode_index -the function that deletes node at given index
- * @head: address of pointer 
+ * deletenode_index - the function that deletes node at given index
+ * @head: address of pointer
  * @index: index
  * Return: 1  success,else 0
  */

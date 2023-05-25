@@ -1,66 +1,59 @@
 #include "shell.h"
 
 /**
- * _strlen - returns the length of a string
- * @U: the string whose length to check
- *
- * Return: integer length of string
+ * _strlen - the function that returns the length of a string
+ * @U: the string
+ * Return: length of string
  */
 int _strlen(char *U)
 {
-	int i = 0;
+	int k = 0;
 
 	if (!U)
 		return (0);
 
 	while (*U++)
-		i++;
-	return (i);
+		k++;
+	return (k);
 }
-
 /**
- * _strcmp - performs lexicogarphic comparison of two strangs.
- * @U1: the first strang
- * @U2: the second strang
- *
- * Return: negative if U1 < U2, positive if U1 > U2, zero if U1 == U2
+ * _strcmp - the function that performs lexicogarphic comparison of two strangs.
+ * @S1: the first strang
+ * @S2: the second strang
+ * Return: negative or positive and zero
  */
-int _strcmp(char *U1, char *U2)
+int _strcmp(char *S1, char *S2)
 {
-	while (*U1 && *U2)
+	while (*S1 && *S2)
 	{
-		if (*U1 != *U2)
-			return (*U1 - *U2);
-		U1++;
-		U2++;
+		if (*S1 != *S2)
+			return (*S1 - *S2);
+		S1++;
+		S2++;
 	}
-	if (*U1 == *U2)
+	if (*S1 == *S2)
 		return (0);
 	else
-		return (*U1 < *U2 ? -1 : 1);
+		return (*S1 < *S2 ? -1 : 1);
 }
-
 /**
- * starts_with - checks if needle starts with haystack
- * @haystack: string to search
- * @needle: the substring to find
- *
- * Return: address of next char of haystack or NULL
+ * start_with - the function that checks if needle starts with haystack
+ * @haystack: string
+ * @needle:  substring
+ * Return: address of next
  */
-char *starts_with(const char *haystack, const char *needle)
+char *start_with(const char *haystack, const char *needle)
 {
 	while (*needle)
 		if (*needle++ != *haystack++)
 			return (NULL);
 	return ((char *)haystack);
 }
-
 /**
- * _strcat - concatenates two strings
- * @dest: the destination buffer
- * @src: the source buffer
- *
- * Return: pointer to destination buffer
+ * _strcat - the function that concatenates two strings
+ * @dest:  destination
+ * @src:  source
+ * Return: pointer
  */
 char *_strcat(char *dest, char *src)
 {
@@ -73,4 +66,3 @@ char *_strcat(char *dest, char *src)
 	*dest = *src;
 	return (ret);
 }
-

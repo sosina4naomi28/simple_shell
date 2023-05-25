@@ -12,7 +12,7 @@ ssize_t input_buf(ino_t *ino, char **buf, size_t *len)
 	ssize_t r = 0;
 	size_t len_p = 0;
 
-	if (!*len) 
+	if (!*len)
 	{
 		free(*buf);
 		*buf = NULL;
@@ -43,7 +43,7 @@ ssize_t input_buf(ino_t *ino, char **buf, size_t *len)
 /**
  * get_input - gets a line minus the newline
  * @ino: parameter struct
- * Return: bytes 
+ * Return: bytes
  */
 ssize_t get_input(ino_t *ino)
 {
@@ -54,38 +54,35 @@ ssize_t get_input(ino_t *ino)
 
 	_putchar(BUF_FLUSH);
 	r = input_buf(ino, &buf, &len);
-	if (r == -1) 
+	if (r == -1)
 		return (-1);
 	if (len)
 	{
-		i = k; 
+		i = k;
 		ptr = buf + k;
 
-		check_chain(ino, buf, &i, k, len);
-		while (j < len) 
+		checking_the_chain(ino, buf, &i, k, len);
+		while (j < len)
 		{
-			if (is_chain(ino, buf, &i))
+			if (test_chain(ino, buf, &i))
 				break;
 			i++;
 		}
-
 		k = i + 1;
 		if (k >= len)
 		{
 			k = len = 0;
-			info->cmd_buf_type = CMD_NORM;
+			ino->cmd_buf_type = CMD_NORM;
 		}
-
-		*buf_p = ptr; 
+		*buf_p = ptr;
 		return (_strlen(p));
 	}
-
 	*buf_p = buf;
 	return (r);
 }
 /**
  * read_buf - the function that reads a buffer
- * @info: parameter struct
+ * @ino: parameter struct
  * @buf: buffer
  * @k: size
  * Return: r
@@ -129,14 +126,12 @@ int _getline(ino_t *ino, char **ptr, size_t *length)
 	c = _strchr(buf + i, '\n');
 	k = c ? 1 + (unsigned int)(c - buf) : len;
 	new_p = _realloc(p, s, s ? s + k : k + 1);
-	if (!new_p) 
+	if (!new_p)
 		return (p ? free(p), -1 : -1);
-
 	if (s)
 		_strncat(new_p, buf + i, k - i);
 	else
 		_strncpy(new_p, buf + i, k - i + 1);
-
 	s += k - i;
 	i = k;
 	p = new_p;

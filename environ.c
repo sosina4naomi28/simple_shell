@@ -8,27 +8,26 @@
  */
 int unsetenviron(ino_t *ino, char *var)
 {
-        list_t *node = ino->env;
-        size_t k = 0;
-        char *ptr;
+	list_t *node = ino->env;
+	size_t k = 0;
+	char *ptr;
 
-        if (!node || !var)
-                return (0);
-
-        while (node)
-        {
-                ptr = starts_with(node->str, var);
-                if (ptr && *ptr == '=')
-                {
-                        ino->env_changed = delete_node_at_index(&(ino->env), k);
-                        k = 0;
-                        node = ino->env;
-                        continue;
-                }
-                node = node->next;
-                k++;
-        }
-        return (inko->env_changed);
+	if (!node || !var)
+		return (0);
+	while (node)
+	{
+		ptr = starts_with(node->str, var);
+		if (ptr && *ptr == '=')
+		{
+			ino->env_changed = delete_node_at_index(&(ino->env), k);
+			k = 0;
+			node = ino->env;
+			continue;
+		}
+		node = node->next;
+		k++;
+	}
+	return (inko->env_changed);
 }
 /**
  * get_environ - functions that returns the string array copy of our environ
@@ -42,7 +41,6 @@ char **get_environ(ino_t *ino)
 		ino->environ = list_to_strings(ino->env);
 		ino->env_changed = 0;
 	}
-
 	return (ino->environ);
 }
 /**
@@ -60,7 +58,6 @@ int setenviron(ino_t *ino, char *var, char *value)
 
 	if (!var || !value)
 		return (0);
-
 	buf = malloc(_strlen(var) + _strlen(value) + 2);
 	if (!buf)
 		return (1);

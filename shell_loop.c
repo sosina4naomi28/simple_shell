@@ -9,9 +9,9 @@
 int find_builtin(info_t *info)
 {
 	int i, built_in_ret = -1;
-	builtin_table builtintbl[] = {{"exit", _myexit},{"env", _myenv},{"help", _myhelp},
-		{"history", _myhistory},{"setenv", _mysetenv},{"unsetenv", _myunsetenv},
-		{"cd", _mycd},{"alias", _myalias},{NULL, NULL}};
+	builtin_table builtintbl[] = {{"exit", exit}, {"env", env}, {"help", help},
+		{"history", zhistory}, {"setenv", setenv}, {"unsetenv", unsetenv},
+		{"cd", cd}, {"alias", alias}, {NULL, NULL}};
 
 	for (i = 0; builtintbl[i].type; i++)
 		if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
@@ -24,43 +24,43 @@ int find_builtin(info_t *info)
 }
 /**
  * hsh - main shell loop
- * @info: the parameter & return info struct
+ * @ino: the parameter & return info struct
  * @av: the argument vector from main()
  *
  * Return: 0 on success, 1 on error, or error code
  */
-int hsh(info_t *info, char **av)
+int hsh(ino_t *ino, char **av)
 {
 	ssize_t R = 0;
 	int builtin_ret = 0;
 
 	while (R != -1 && builtin_ret != -2)
 	{
-		clear_info(info);
-		if (interactive(info))
+		clear_info(ino);
+		if (active(ino))
 			_puts("$ ");
 		_eputchar(BUF_FLUSH);
-		R = get_input(info);
+		R = get_input(ino);
 		if (R != -1)
 		{
-			set_info(info, av);
-			builtin_ret = find_builtin(info);
+			set_ino(ino, av);
+			builtin_ret = find_builtin(ino);
 			if (builtin_ret == -1)
-				find_cmd(info);
+				find_cmd(ino);
 		}
-		else if (interactive(info))
+		else if (active(ino))
 			_putchar('\n');
-		free_info(info, 0);
+		free_ino(ino, 0);
 	}
-	write_history(info);
-	free_info(info, 1);
-	if (!interactive(info) && info->status)
+	wrhistory(ino);
+	free_info(ino, 1);
+	if (!active(ino) && ino->status)
 		exit(info->status);
 	if (builtin_ret == -2)
 	{
 		if (info->err_num == -1)
-			exit(info->status);
-		exit(info->err_num);
+			exit(ino->status);
+		exit(ino->err_num);
 	}
 	return (builtin_ret);
 }
@@ -107,7 +107,7 @@ void find_cmd(info_t *info)
 }
 
 /**
- * fork_cmd - forks 
+ * fork_cmd - forks
  * @info: parameter & return info struct
  * Return: void
  */
@@ -118,7 +118,6 @@ void fork_cmd(info_t *info)
 	child_pid = fork();
 	if (child_pid == -1)
 	{
-		
 		perror("Error:");
 		return;
 	}
@@ -131,7 +130,6 @@ void fork_cmd(info_t *info)
 				exit(126);
 			exit(1);
 		}
-		
 	}
 	else
 	{

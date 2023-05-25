@@ -2,7 +2,7 @@
 
 /**
  * alias - the function that  mimics the alias builtin
- * @info: argument
+ * @ino: argument
  *  Return: 0 success
  */
 int alias(ino_t *ino)
@@ -22,7 +22,7 @@ int alias(ino_t *ino)
 		}
 		return (0);
 	}
-	for (k = 1; info->argv[k]; k++)
+	for (k = 1; ino->argv[k]; k++)
 	{
 		ptr = _strchr(ino->argv[k], '=');
 		if (ptr)
@@ -34,7 +34,7 @@ int alias(ino_t *ino)
 }
 /**
  * zhistory - the function that shows the history list
- * @info: arguments
+ * @ino: arguments
  *  Return: 0
  */
 int zhistory(ino_t *ino)
@@ -44,7 +44,7 @@ int zhistory(ino_t *ino)
 }
 /**
  * salias - the function that  sets alias to string
- * @info: parameter
+ * @ino: parameter
  * @str: the string
  * Return: 0  success, 1 error
  */
@@ -85,7 +85,7 @@ int palias(list_t *node)
 }
 /**
  * unalias - the function that unsets alias to string
- * @info: parameter
+ * @ino: parameter
  * @str:  string
  * Return: 0  success, 1 (error)
  */

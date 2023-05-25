@@ -2,7 +2,7 @@
 
 /**
  * help -the function that changes the current directory of the process
- * @info: argument
+ * @ino: argument
  * Return: Always 0
  */
 int help(ino_t *ino)
@@ -17,9 +17,9 @@ int help(ino_t *ino)
 	return (0);
 }
 /**
- * exit - exits the shell
- * @info: argument
- * Return: exits (0) if argv[0] != "exit"
+ * exit - the function that exits the shell
+ * @ino: argument
+ * Return: exits (0) else,argv[0] != "exit"
  */
 int exit(ino_t *ino)
 {
@@ -44,7 +44,7 @@ int exit(ino_t *ino)
 }
 /**
  * cd - the function that changes the current directory of the process
- * @info: argument
+ * @ino: argument
  * Return: Always 0
  */
 int cd(ino_t *ino)

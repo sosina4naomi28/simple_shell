@@ -19,7 +19,7 @@ int unsetenv(ino_t *info)
 }
 /**
  * env - the function that prints the current environment
- * @info: arguments
+ * @ino: arguments
  * Return: 0 success
  */
 int env(ino_t *ino)
@@ -29,30 +29,28 @@ int env(ino_t *ino)
 }
 /**
  * genv - the function that gets the value of an environ variable
- * @info: arguments
- * @name: env var name
- *
+ * @ino: arguments
+ * @nam:  name
  * Return: the value
  */
-char *genv(ino_t *ino, const char *name)
+char *genv(ino_t *ino, const char *nam)
 {
 	list_t *node = ino->env;
 	char *ptr;
 
 	while (node)
 	{
-		ptr = starts_with(node->str, name);
+		ptr = starts_with(node->str, nam);
 		if (ptr && *ptr)
 			return (ptr);
 		node = node->next;
 	}
 	return (NULL);
 }
-
 /**
  * setenv - the function that Initialize a new environment variable
- * @info: arguments
- *  Return: Always 0
+ * @ino: arguments
+ * Return:  0 success
  */
 int setenv(ino_t *ino)
 {
@@ -67,9 +65,8 @@ int setenv(ino_t *ino)
 }
 /**
  * env_list - populates env linked list
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- * Return: Always 0
+ * @ino: arguments
+ * Return: 0 success
  */
 int env_list(ino_t *ino)
 {
