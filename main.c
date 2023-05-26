@@ -7,7 +7,7 @@
  */
 int main(int ac, char **av)
 {
-	ino_t ino[] = { INFO_INIT };
+	ino_t ino[] = { INO_INIT };
 	int fd = 2;
 
 	asm ("mov %1, %0\n\t"

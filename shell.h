@@ -45,36 +45,36 @@ int env_list(ino_t *);
 
 /* environ.c */
 char **get_environ(ino_t *);
-int _unsetenv(ino_t *, char *);
-int _setenv(ino_t *, char *, char *);
+int unsetenviron(ino_t *, char *);
+int setenvron(ino_t *, char *, char *);
 
 /* history.c */
-char *get_history_file(ino_t *ino);
-int write_history(ino_t *ino);
-int read_history(ino_t *ino);
-int build_history_list(ino_t *ino, char *buf, int linecount);
-int renumber_history(ino_t *ino);
+char *ghistoryf(ino_t *ino);
+int wrhistory(ino_t *ino);
+int rdhistory(ino_t *ino);
+int buhistory_list(ino_t *ino, char *buf, int linecount);
+int renhistory(ino_t *ino);
 
 /* lists.c */
-list_t *add_node(list_t **, const char *, int);
-list_t *add_node_end(list_t **, const char *, int);
-size_t print_list_str(const list_t *);
-int delete_node_at_index(list_t **, unsigned int);
-void free_list(list_t **);
+list_t *addnode(list_t **, const char *, int);
+list_t *addnode_end(list_t **, const char *, int);
+size_t plist_str(const list_t *);
+int deletenode_index(list_t **, unsigned int);
+void freed_list(list_t **);
 
 /* lists1.c */
-size_t list_len(const list_t *);
-char **list_to_strings(list_t *);
-size_t print_list(const list_t *);
-list_t *node_starts_with(list_t *, char *, char);
-ssize_t get_node_index(list_t *, list_t *);
+size_t listlen(const list_t *);
+char **liststrings(list_t *);
+size_t plist(const list_t *);
+list_t *starts_with(list_t *, char *, char);
+ssize_t node_index(list_t *, list_t *);
 
 /* vars.c */
-int is_chain(ino_t *, char *, size_t *);
-void check_chain(ino_t *, char *, size_t *, size_t, size_t);
-int replace_alias(ino_t *);
-int replace_vars(ino_t *);
-int replace_string(char **, char *);
+int test_chain(ino_t *, char *, size_t *);
+void checking_the_chain(ino_t *, char *, size_t *, size_t, size_t);
+int replace_the_alias(ino_t *);
+int replace_the_vars(ino_t *);
+int replace_the_string(char **, char *);
 
 /**
  * struct liststr - singly linked list
@@ -111,7 +111,7 @@ typedef struct liststr
  * @readfd: the fd from which to read line input
  * @histcount: the history line number count
  */
-typedef struct passinfo
+typedef struct passino
 {
 	char *arg;
 	char **argv;
@@ -134,7 +134,7 @@ typedef struct passinfo
 	int histcount;
 } ino_t;
 
-#define INFO_INIT \
+#define INO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 		0, 0, 0}
 
@@ -150,21 +150,21 @@ typedef struct builtin
 } builtin_table;
 
 
-/* toem_shloop.c */
+/* shell_loop.c */
 int hsh(ino_t *, char **);
 int find_builtin(ino_t *);
 void find_cmd(ino_t *);
 void fork_cmd(ino_t *);
 
-/* toem_parser.c */
-int is_cmd(ino_t *, char *);
-char *dup_chars(char *, int, int);
-char *find_path(ino_t *, char *, char *);
+/* parser.c */
+int iscmd(ino_t *, char *);
+char *dupchars(char *, int, int);
+char *find_cmd_path(ino_t *, char *, char *);
 
 /* loophsh.c */
 int loophsh(char **);
 
-/* toem_errors.c */
+/* errors.c */
 void _eputs(char *);
 int _eputchar(char);
 int _putfd(char c, int fd);
