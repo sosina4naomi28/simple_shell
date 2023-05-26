@@ -12,22 +12,18 @@
 #include <fcntl.h>
 #include <errno.h>
 
-/* for read/write buffers */
 #define READ_BUF_SIZE 1024
 #define WRITE_BUF_SIZE 1024
 #define BUF_FLUSH -1
 
-/* for command chaining */
 #define CMD_NORM	0
 #define CMD_OR		1
 #define CMD_AND		2
 #define CMD_CHAIN	3
 
-/* for convert_number() */
 #define CONVERT_LOWERCASE	1
 #define CONVERT_UNSIGNED	2
 
-/* 1 if using system getline() */
 #define USE_GETLINE 0
 #define USE_STRTOK 0
 
@@ -77,7 +73,7 @@ int replace_the_vars(ino_t *);
 int replace_the_string(char **, char *);
 
 /**
- * struct liststr - singly linked list
+ * struct liststr - the function that singly linked list
  * @num: the number field
  * @str: a string
  * @next: points to the next node
@@ -89,28 +85,6 @@ typedef struct liststr
 	struct liststr *next;
 } list_t;
 
-/**
- * struct passinfo -function that contains pseudo-arguements to pass into a function,
- * allowing uniform prototype for function pointer struct
- * @arg: a string generated from getline containing arguements
- * @argv:an array of strings generated from arg
- * @path: a string path for the current command
- * @argc: the argument count
- * @line_count: the error count
- * @err_num: the error code for exit()s
- * @linecount_flag: if on count this line of input
- * @fname: the program filename
- * @env: linked list local copy of environ
- * @environ: custom modified copy of environ from LL env
- * @history: the history node
- * @alias: the alias node
- * @env_changed: on if environ was changed
- * @status: the return status of the last exec'd command
- * @cmd_buf: address of pointer to cmd_buf, on if chaining
- * @cmd_buf_type: CMD_type ||, &&, ;
- * @readfd: the fd from which to read line input
- * @histcount: the history line number count
- */
 typedef struct passino
 {
 	char *arg;
@@ -170,30 +144,30 @@ int _eputchar(char);
 int _putfd(char c, int fd);
 int _putsfd(char *str, int fd);
 
-/* toem_string.c */
+/* string.c */
 int _strlen(char *);
 int _strcmp(char *, char *);
 char *starts_with(const char *, const char *);
 char *_strcat(char *, char *);
 
-/* toem_string1.c */
+/* string1.c */
 char *_strcpy(char *, char *);
 char *_strdup(const char *);
 void _puts(char *);
 int _putchar(char);
 
-/* toem_exits.c */
+/* exits.c */
 char *_strncpy(char *, char *, int);
-char *_strncat(char *, char *, int);
-char *_strchr(char *, char);
+char *strnconcat(char *, char *, int);
+char *strlchr(char *, char);
 
-/* toem_tokenizer.c */
+/* tokenizer.c */
 char **strtow(char *, char *);
 char **strtow2(char *, char);
 
 /* realloc.c */
-char *_memset(char *, char, unsigned int);
-void ffree(char **);
+char *fill_memset(char *, char, unsigned int);
+void ffreed(char **);
 void *_realloc(void *, unsigned int, unsigned int);
 
 /* memory.c */

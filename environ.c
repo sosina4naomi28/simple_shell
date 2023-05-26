@@ -77,7 +77,7 @@ int setenviron(ino_t *ino, char *var, char *value)
 		}
 		node = node->next;
 	}
-	add_node_end(&(info->env), buf, 0);
+	addnode_end(&(info->env), buf, 0);
 	free(buf);
 	info->env_changed = 1;
 	return (0);
