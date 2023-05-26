@@ -85,7 +85,7 @@ typedef struct liststr
 	struct liststr *next;
 } list_t;
 
-typedef struct passino
+typedef struct passinfo
 {
 	char *arg;
 	char **argv;
@@ -108,7 +108,7 @@ typedef struct passino
 	int histcount;
 } ino_t;
 
-#define INO_INIT \
+#define INFO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 		0, 0, 0}
 
@@ -171,7 +171,7 @@ void ffreed(char **);
 void *_realloc(void *, unsigned int, unsigned int);
 
 /* memory.c */
-int bfree(void **);
+int bfreed(void **);
 
 /* integer.c */
 int active(ino_t *);

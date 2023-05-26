@@ -36,8 +36,8 @@ char **strtow(char *str, char *Dm)
 		if (!s[i])
 		{
 			for (j = 0; j < i; j++)
-				freed(s[k]);
-			freed(s);
+				ffreed(s[k]);
+			free(s);
 			return (NULL);
 		}
 		for (m = 0; m < j; m++)
@@ -55,7 +55,7 @@ char **strtow(char *str, char *Dm)
  */
 char **strtow2(char *str, char d)
 {
-	int k, i, j, m, numwords = 0;
+	int k, i, j, m, nw = 0;
 	char **s;
 
 	if (str == NULL || str[0] == 0)
@@ -71,7 +71,7 @@ char **strtow2(char *str, char d)
 		return (NULL);
 	for (k = 0, i = 0; i < nw; i++)
 	{
-		while (str[k] == Dm && str[k] != d)
+		while (str[k] == m && str[k] != d)
 			k++;
 		j = 0;
 		while (str[k + j] != d && str[k + j] && str[k + j] != d)
@@ -80,8 +80,8 @@ char **strtow2(char *str, char d)
 		if (!s[i])
 		{
 			for (j = 0; j < i; j++)
-				freed(s[j]);
-			freed(s);
+				free(s[j]);
+			free(s);
 			return (NULL);
 		}
 		for (m = 0; m < j; m++)

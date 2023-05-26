@@ -1,12 +1,11 @@
 #include "shell.h"
 
 /**
- * find_builtin - finds a builtin command
- * @info: the parameter & return info struct
- *
+ * find_builtin - the function that finds a builtin command
+ * @ino: the parameter & return info struct
  * Return: -1,0,1 and 2
  */
-int find_builtin(info_t *info)
+int find_builtin(ino_t *ino)
 {
 	int i, built_in_ret = -1;
 	builtin_table builtintbl[] = {{"exit", exit}, {"env", env}, {"help", help},
@@ -14,10 +13,10 @@ int find_builtin(info_t *info)
 		{"cd", cd}, {"alias", alias}, {NULL, NULL}};
 
 	for (i = 0; builtintbl[i].type; i++)
-		if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
+		if (_strcmp(ino->argv[0], builtintbl[i].type) == 0)
 		{
-			info->line_count++;
-			built_in_ret = builtintbl[i].func(info);
+			ino->line_count++;
+			built_in_ret = builtintbl[i].func(ino);
 			break;
 		}
 	return (built_in_ret);
@@ -27,7 +26,7 @@ int find_builtin(info_t *info)
  * @ino: the parameter & return info struct
  * @av: the argument vector from main()
  *
- * Return: 0 on success, 1 on error, or error code
+ * Return: 0 on success, 1 on error
  */
 int hsh(ino_t *ino, char **av)
 {
@@ -36,7 +35,7 @@ int hsh(ino_t *ino, char **av)
 
 	while (R != -1 && builtin_ret != -2)
 	{
-		clear_info(ino);
+		clear_ino(ino);
 		if (active(ino))
 			_puts("$ ");
 		_eputchar(BUF_FLUSH);
@@ -53,9 +52,9 @@ int hsh(ino_t *ino, char **av)
 		free_ino(ino, 0);
 	}
 	wrhistory(ino);
-	free_info(ino, 1);
+	free_ino(ino, 1);
 	if (!active(ino) && ino->status)
-		exit(info->status);
+		exit(ino->status);
 	if (builtin_ret == -2)
 	{
 		if (info->err_num == -1)
@@ -65,43 +64,42 @@ int hsh(ino_t *ino, char **av)
 	return (builtin_ret);
 }
 /**
- * find_cmd - finds a command in PATH
- * @info: the parameter & return info struct
- *
+ * find_cmd - the function that finds a command in PATH
+ * @ino: the parameter
  * Return: void
  */
-void find_cmd(info_t *info)
+void find_cmd(ino_t *ino)
 {
 	char *path = NULL;
 	int i, k;
 
-	info->path = info->argv[0];
-	if (info->linecount_flag == 1)
+	ino->path = ino->argv[0];
+	if (ino->linecount_flag == 1)
 	{
-		info->line_count++;
-		info->linecount_flag = 0;
+		ino->line_count++;
+		ino->linecount_flag = 0;
 	}
-	for (i = 0, k = 0; info->arg[i]; i++)
-		if (!is_delim(info->arg[i], " \t\n"))
+	for (i = 0, k = 0; ino->arg[i]; i++)
+		if (!delimeter(ino->arg[i], " \t\n"))
 			k++;
 	if (!k)
 		return;
 
-	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
+	path = find_cmd_path(ino, genv(ino, "PATH="), ino->argv[0]);
 	if (path)
 	{
-		info->path = path;
-		fork_cmd(info);
+		ino->path = path;
+		fork_cmd(ino);
 	}
 	else
 	{
-		if ((interactive(info) || _getenv(info, "PATH=")
-					|| info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
-			fork_cmd(info);
-		else if (*(info->arg) != '\n')
+		if ((active(info) || genv(ino, "PATH=")
+					|| ino->argv[0][0] == '/') && iscmd(ino, ino->argv[0]))
+			fork_cmd(ino);
+		else if (*(ino->arg) != '\n')
 		{
-			info->status = 127;
-			print_error(info, "not found\n");
+			ino->status = 127;
+			print_error(ino, "not found\n");
 		}
 	}
 }
@@ -111,7 +109,7 @@ void find_cmd(info_t *info)
  * @info: parameter & return info struct
  * Return: void
  */
-void fork_cmd(info_t *info)
+void fork_cmd(ino_t *ino)
 {
 	pid_t child_pid;
 
@@ -123,9 +121,9 @@ void fork_cmd(info_t *info)
 	}
 	if (child_pid == 0)
 	{
-		if (execve(info->path, info->argv, get_environ(info)) == -1)
+		if (execve(ino->path, ino->argv, get_environ(ino)) == -1)
 		{
-			free_info(info, 1);
+			free_ino(ino, 1);
 			if (errno == EACCES)
 				exit(126);
 			exit(1);
@@ -133,12 +131,12 @@ void fork_cmd(info_t *info)
 	}
 	else
 	{
-		wait(&(info->status));
-		if (WIFEXITED(info->status))
+		wait(&(ino->status));
+		if (WIFEXITED(ino->status))
 		{
-			info->status = WEXITSTATUS(info->status);
-			if (info->status == 126)
-				print_error(info, "Permission denied\n");
+			ino->status = WEXITSTATUS(ino->status);
+			if (ino->status == 126)
+				print_error(ino, "Permission denied\n");
 		}
 	}
 }

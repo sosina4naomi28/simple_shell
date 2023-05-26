@@ -12,7 +12,7 @@ char *fill_memoset(char *P, char B, unsigned int n)
 	unsigned int k;
 
 	for (k = 0; k < n; k++)
-		P[i] = B;
+		P[k] = B;
 	return (P);
 }
 /**
@@ -26,8 +26,8 @@ void ffreed(char **str)
 	if (!str)
 		return;
 	while (*str)
-		freed(*str++);
-	freed(a);
+		ffreed(*str++);
+	ffreed(a);
 }
 /**
  * _realloc - the function that reallocates a block of memory

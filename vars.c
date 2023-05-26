@@ -46,7 +46,7 @@ void checking_the_chain(ino_t *ino, char *buf, size_t *ptr, size_t k, size_t len
 {
 	size_t i = *ptr;
 
-	if (info->cmd_buf_type == CMD_AND)
+	if (ino->cmd_buf_type == CMD_AND)
 	{
 		if (ino->status)
 		{
@@ -81,8 +81,8 @@ int replace_the_alias(ino_t *ino)
 		node = starts_with(ino->alias, ino->argv[0], '=');
 		if (!node)
 			return (0);
-		freed(ino->argv[0]);
-		Q = _strchr(node->str, '=');
+		ffreed(ino->argv[0]);
+		Q = strchr(node->str, '=');
 		if (!Q)
 			return (0);
 		Q = _strdup(Q + 1);
@@ -104,29 +104,29 @@ int replace_the_vars(ino_t *ino)
 
 	for (k = 0; ino->argv[k]; k++)
 	{
-		if (info->argv[k][0] != '$' || !ino->argv[k][1])
+		if (ino->argv[k][0] != '$' || !ino->argv[k][1])
 			continue;
 
 		if (!_strcmp(ino->argv[k], "$?"))
 		{
-			replace_string(&(ino->argv[k]),
+			replace_the_string(&(ino->argv[k]),
 					_strdup(convert_number(ino->status, 10, 0)));
 			continue;
 		}
 		if (!_strcmp(ino->argv[k], "$$"))
 		{
-			replace_string(&(ino->argv[k]),
+			replace_the_string(&(ino->argv[k]),
 					_strdup(convert_number(getpid(), 10, 0)));
 			continue;
 		}
-		node = node_starts_with(ino->env, &ino->argv[k][1], '=');
+		node = starts_with(ino->env, &ino->argv[k][1], '=');
 		if (node)
 		{
-			replace_string(&(ino->argv[k]),
-					_strdup(_strchr(node->str, '=') + 1));
+			replace_the_string(&(ino->argv[k]),
+					_strdup(strchr(node->str, '=') + 1));
 			continue;
 		}
-		replace_string(&ino->argv[i], _strdup(""));
+		replace_the_string(&ino->argv[k], _strdup(""));
 
 	}
 	return (0);
@@ -140,7 +140,7 @@ int replace_the_vars(ino_t *ino)
  */
 int replace_the_string(char **pre, char *rec)
 {
-	freed(*pre);
+	free(*pre);
 	*pre = rec;
 	return (1);
 }

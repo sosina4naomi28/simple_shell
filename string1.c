@@ -1,4 +1,4 @@
-i#include "shell.h"
+#include "shell.h"
 
 /**
  * _strcpy - the function that copies a string
@@ -70,7 +70,7 @@ int _putchar(char Q)
 
 	if (Q == BUF_FLUSH || k >= WRITE_BUF_SIZE)
 	{
-		write(1, buf, i);
+		write(1, buf, k);
 		k = 0;
 	}
 	if (Q != BUF_FLUSH)

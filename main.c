@@ -7,7 +7,7 @@
  */
 int main(int ac, char **av)
 {
-	ino_t ino[] = { INO_INIT };
+	ino_t ino[] = { INFO_INIT };
 	int fd = 2;
 
 	asm ("mov %1, %0\n\t"
@@ -37,6 +37,6 @@ int main(int ac, char **av)
 	}
 	env_list(ino);
 	rdhistory(ino);
-	hsh(info, av);
+	hsh(ino, av);
 	return (EXIT_SUCCESS);
 }
