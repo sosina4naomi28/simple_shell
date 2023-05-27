@@ -8,9 +8,18 @@
 int find_builtin(ino_t *ino)
 {
 	int i, built_in_ret = -1;
-	builtin_table builtintbl[] = {{"exit", exit}, {"env", env}, {"help", help},
-		{"history", zhistory}, {"setenv", setenv}, {"unsetenv", unsetenv},
-		{"cd", cd}, {"alias", alias}, {NULL, NULL}};
+
+	builtin_table builtintbl[] = {
+		{"exit", exit},
+		{"env", env},
+		{"help", help},
+		{"history", zhistory},
+		{"setenv", setenv},
+		{"unsetenv", unsetenv},
+		{"cd", cd},
+		{"alias", alias},
+		{NULL, NULL}
+	};
 
 	for (i = 0; builtintbl[i].type; i++)
 		if (_strcmp(ino->argv[0], builtintbl[i].type) == 0)
@@ -22,10 +31,9 @@ int find_builtin(ino_t *ino)
 	return (built_in_ret);
 }
 /**
- * hsh - main shell loop
+ * hsh - the function which is main shell loop
  * @ino: the parameter & return info struct
  * @av: the argument vector from main()
- *
  * Return: 0 on success, 1 on error
  */
 int hsh(ino_t *ino, char **av)
@@ -57,7 +65,7 @@ int hsh(ino_t *ino, char **av)
 		exit(ino->status);
 	if (builtin_ret == -2)
 	{
-		if (info->err_num == -1)
+		if (ino->err_num == -1)
 			exit(ino->status);
 		exit(ino->err_num);
 	}
@@ -93,7 +101,7 @@ void find_cmd(ino_t *ino)
 	}
 	else
 	{
-		if ((active(info) || genv(ino, "PATH=")
+		if ((active(ino) || genv(ino, "PATH=")
 					|| ino->argv[0][0] == '/') && iscmd(ino, ino->argv[0]))
 			fork_cmd(ino);
 		else if (*(ino->arg) != '\n')
@@ -106,7 +114,7 @@ void find_cmd(ino_t *ino)
 
 /**
  * fork_cmd - forks
- * @info: parameter & return info struct
+ * @ino: parameter & return info struct
  * Return: void
  */
 void fork_cmd(ino_t *ino)

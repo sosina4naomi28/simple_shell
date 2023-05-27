@@ -73,10 +73,10 @@ int replace_the_vars(ino_t *);
 int replace_the_string(char **, char *);
 
 /**
- * struct liststr - the function that singly linked list
- * @num: the number field
- * @str: a string
- * @next: points to the next node
+ * struct liststr - the function that prints singly linked list
+ * @num:  number
+ * @str:  string
+ * @next:  next node
  */
 typedef struct liststr
 {
@@ -85,7 +85,7 @@ typedef struct liststr
 	struct liststr *next;
 } list_t;
 
-typedef struct passinfo
+typedef struct passino
 {
 	char *arg;
 	char **argv;
@@ -108,7 +108,7 @@ typedef struct passinfo
 	int histcount;
 } ino_t;
 
-#define INFO_INIT \
+#define INO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 		0, 0, 0}
 
@@ -186,7 +186,7 @@ int print_d(int, int);
 char *convert_number(long int, int, int);
 void remove_comments(char *);
 
-/* builtin.c */
+/* cdir.c */
 int exit(ino_t *);
 int cd(ino_t *);
 int help(ino_t *);
