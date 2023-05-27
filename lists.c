@@ -106,8 +106,8 @@ int deletenode_index(list_t **head, unsigned int index)
 	{
 		node = *head;
 		*head = (*head)->next;
-		bfreed(node->str);
-		freed(node);
+		free(node->str);
+		free(node);
 		return (1);
 	}
 	node = *head;
@@ -116,8 +116,8 @@ int deletenode_index(list_t **head, unsigned int index)
 		if (k == index)
 		{
 			prev_node->next = node->next;
-			freed(node->str);
-			freed(node);
+			free(node->str);
+			free(node);
 			return (1);
 		}
 		k++;
