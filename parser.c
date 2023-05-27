@@ -40,10 +40,10 @@ char *dupchars(char *pathstr, int start, int stop)
 }
 /**
  * find_cmd_path - the function that finds this cmd in the PATH string
- * @ino: the info
- * @pathstr: the PATH string
- * @cmd: the cmd to find
- * Return: full path of cmd if found or NULL
+ * @ino: th argument
+ * @pathstr: the  string
+ * @cmd: to find
+ * Return: full path or NULL
  */
 char *find_cmd_path(ino_t *ino, char *pathstr, char *cmd)
 {

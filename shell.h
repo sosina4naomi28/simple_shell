@@ -34,10 +34,10 @@ extern char **environ;
 
 /* env.c */
 char *genv(ino_t *, const char *);
-int env(ino_t *);
-int setenv(ino_t *);
-int unsetenv(ino_t *);
-int env_list(ino_t *);
+int zenv(ino_t*);
+int zsetenv(ino_t *);
+int zunsetenv(ino_t *);
+int env_list(ino_t*);
 
 /* environ.c */
 char **get_environ(ino_t *);
@@ -52,18 +52,18 @@ int buhistory_list(ino_t *ino, char *buf, int linecount);
 int renhistory(ino_t *ino);
 
 /* lists.c */
-list_t *addnode(list_t **, const char *, int);
-list_t *addnode_end(list_t **, const char *, int);
-size_t plist_str(const list_t *);
-int deletenode_index(list_t **, unsigned int);
-void freed_list(list_t **);
+list_t *addnode(list_t**, const char *, int);
+list_t *addnode_end(list_t**, const char *, int);
+size_t plist_str(const list_t*);
+int deletenode_index(list_t**, unsigned int);
+void freed_list(list_t**);
 
 /* lists1.c */
-size_t listlen(const list_t *);
-char **liststrings(list_t *);
-size_t plist(const list_t *);
-list_t *starts_with(list_t *, char *, char);
-ssize_t node_index(list_t *, list_t *);
+size_t listlen(const list_t*);
+char **liststrings(list_t*);
+size_t plist(const list_t*);
+list_t *starts_with(list_t*, char *, char);
+ssize_t node_index(list_t*, list_t *);
 
 /* vars.c */
 int test_chain(ino_t *, char *, size_t *);
@@ -84,6 +84,29 @@ typedef struct liststr
 	char *str;
 	struct liststr *next;
 } list_t;
+
+/**
+ * struct passino - the function that contains pseudo-arguements to pass into a function,
+ * allowing uniform prototype for function pointer struct
+ * @line_count: the error count
+ * @err_num: the error code for exit()s
+ * @linecount_flag: if on count this line of input
+ * @fname: the program filename
+ * @env: linked list local copy of environ
+ * @environ: custom modified copy of environ from LL env
+ * @history: the history node
+ * @alias: the alias node
+ * @env_changed: on if environ was changed
+ * @status: the return status of the last exec'd command
+ * @cmd_buf: address of pointer to cmd_buf, on if chaining
+ * @cmd_buf_type: CMD_type ||, &&, ;
+ * @readfd: the fd from which to read line input
+ * @histcount: the history line number count
+ * @arg: a string generated from getline containing arguements
+ * @argv:an array of strings generated from arg
+ * @path: a string path for the current command
+ * @argc: the argument count
+ */
 
 typedef struct passino
 {
