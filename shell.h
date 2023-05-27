@@ -34,9 +34,9 @@ extern char **environ;
 
 /* env.c */
 char *genv(ino_t *, const char *);
-int zenv(ino_t*);
-int zsetenv(ino_t *);
-int zunsetenv(ino_t *);
+int the_env(ino_t*);
+int the_setenv(ino_t *);
+int the_unsetenv(ino_t *);
 int env_list(ino_t*);
 
 /* environ.c */
@@ -52,18 +52,18 @@ int buhistory_list(ino_t *ino, char *buf, int linecount);
 int renhistory(ino_t *ino);
 
 /* lists.c */
-list_t *addnode(list_t**, const char *, int);
-list_t *addnode_end(list_t**, const char *, int);
-size_t plist_str(const list_t*);
-int deletenode_index(list_t**, unsigned int);
-void freed_list(list_t**);
+list_t *addnode(list_t **, const char *, int);
+list_t *addnode_end(list_t **, const char *, int);
+size_t plist_str(const list_t *);
+int deletenode_index(list_t **, unsigned int);
+void freed_list(list_t **);
 
 /* lists1.c */
-size_t listlen(const list_t*);
-char **liststrings(list_t*);
-size_t plist(const list_t*);
-list_t *starts_with(list_t*, char *, char);
-ssize_t node_index(list_t*, list_t *);
+size_t listlen(const list_t *);
+char **liststrings(list_t *);
+size_t plist(const list_t *);
+list_t *starts_with(list_t *, char *, char);
+ssize_t node_index(list_t *, list_t *);
 
 /* vars.c */
 int test_chain(ino_t *, char *, size_t *);
@@ -210,13 +210,13 @@ char *convert_number(long int, int, int);
 void remove_comments(char *);
 
 /* cdir.c */
-int exit(ino_t *);
-int cd(ino_t *);
-int help(ino_t *);
+int the_exit(ino_t *);
+int the_cd(ino_t *);
+int the_help(ino_t *);
 
 /* alias.c */
-int zhistory(ino_t *);
-int alias(ino_t *);
+int the_history(ino_t *);
+int the_alias(ino_t *);
 
 /* getline.c */
 ssize_t get_input(ino_t *);

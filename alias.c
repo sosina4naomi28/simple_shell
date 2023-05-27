@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * alias - the function that  mimics the alias builtin
+ * the_alias - the function that  mimics the alias builtin
  * @ino: argument
  *  Return: 0 success
  */
-int alias(ino_t *ino)
+int the_alias(ino_t *ino)
 {
 	int k = 0;
 	char *ptr = NULL;
@@ -33,11 +33,11 @@ int alias(ino_t *ino)
 	return (0);
 }
 /**
- * zhistory - the function that shows the history list
+ * the_history - the function that shows the history list
  * @ino: arguments
  *  Return: 0
  */
-int zhistory(ino_t *ino)
+int the_history(ino_t *ino)
 {
 	print_list(ino->history);
 	return (0);

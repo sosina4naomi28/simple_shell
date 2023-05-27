@@ -10,14 +10,14 @@ int find_builtin(ino_t *ino)
 	int i, built_in_ret = -1;
 
 	builtin_table builtintbl[] = {
-		{"exit", exit},
-		{"env", zenv},
-		{"help", help},
-		{"history", zhistory},
-		{"setenv", zsetenv},
-		{"unsetenv", zunsetenv},
-		{"cd", cd},
-		{"alias", alias},
+		{"exit",the_exit},
+		{"env", the_env},
+		{"help", the_help},
+		{"history", the_history},
+		{"setenv", the_setenv},
+		{"unsetenv", the_unsetenv},
+		{"cd", the_cd},
+		{"alias", the_alias},
 		{NULL, NULL}
 	};
 

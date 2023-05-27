@@ -39,8 +39,8 @@ char **liststrings(list_t *head)
 		if (!str)
 		{
 			for (i = 0; i < k; i++)
-				freed(strs[i]);
-			freed(strs);
+				free(strs[i]);
+			free(strs);
 			return (NULL);
 		}
 
@@ -55,18 +55,18 @@ char **liststrings(list_t *head)
  * @i: pointer
  * Return: size of list
  */
-size_t plist(const list_t *i)
+size_t plist(const list_t *d)
 {
 	size_t k = 0;
 
-	while (i)
+	while (k)
 	{
 		_puts(convert_number(g->num, 10, 0));
 		_putchar(':');
 		_putchar(' ');
 		_puts(g->str ? g->str : "(nil)");
 		_puts("\n");
-		d = i->next;
+		d = k->next;
 		k++;
 	}
 	return (k);

@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * help -the function that changes the current directory of the process
+ * the_help -the function that changes the current directory of the process
  * @ino: argument
  * Return: Always 0
  */
-int help(ino_t *ino)
+int the_help(ino_t *ino)
 {
 	char **ptr;
 
@@ -17,11 +17,11 @@ int help(ino_t *ino)
 	return (0);
 }
 /**
- * exit - the function that exits the shell
+ * the_exit - the function that exits the shell
  * @ino: argument
  * Return: exits (0) else,argv[0] != "exit"
  */
-int exit(ino_t *ino)
+int the_exit(ino_t *ino)
 {
 	int ex;
 
@@ -43,11 +43,11 @@ int exit(ino_t *ino)
 	return (-2);
 }
 /**
- * cd - the function that changes the current directory of the process
+ * the_cd - the function that changes the current directory of the process
  * @ino: argument
  * Return: Always 0
  */
-int cd(ino_t *ino)
+int the_cd(ino_t *ino)
 {
 	char *s, *dir, buffer[1024];
 	int cdiret;

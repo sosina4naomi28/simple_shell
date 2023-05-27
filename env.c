@@ -1,10 +1,10 @@
 #include "shell.h"
 /**
- * zunsetenv -the function that Remove an environment variable
+ * the_unsetenv -the function that Remove an environment variable
  * @info: arguments
  * Return: Always 0
  */
-int zunsetenv(ino_t *info)
+int the_unsetenv(ino_t *info)
 {
 	int k;
 
@@ -18,11 +18,11 @@ int zunsetenv(ino_t *info)
 	return (0);
 }
 /**
- * zenv - the function that prints the current environment
+ * the_env - the function that prints the current environment
  * @ino: arguments
  * Return: 0 success
  */
-int zenv(ino_t *ino)
+int the_env(ino_t *ino)
 {
 	print_list_str(ino->env);
 	return (0);
@@ -48,11 +48,11 @@ char *genv(ino_t *ino, const char *nam)
 	return (NULL);
 }
 /**
- * zsetenv - the function that Initialize a new environment variable
+ * the_setenv - the function that Initialize a new environment variable
  * @ino: arguments
  * Return:  0 success
  */
-int zsetenv(ino_t *ino)
+int the_setenv(ino_t *ino)
 {
 	if (ino->argc != 3)
 	{
